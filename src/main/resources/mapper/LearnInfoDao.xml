@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.learn.learnspring.dao.LearnInfoDao">
+    <resultMap id="BaseResultMap" type="com.learn.learnspring.entity.LearnInfo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="user_action" jdbcType="VARCHAR" property="userAction"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="user_data" jdbcType="VARCHAR" property="userData"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, user_name, user_action, create_time, user_data
+  </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from learn_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="query" parameterType="com.learn.learnspring.entity.LearnInfo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from learn_info
+        <where>
+            <set>
+                <if test="id != null">
+                    id = #{id} and
+                </if>
+                <if test="userName != null">
+                    user_name = #{userName,jdbcType=VARCHAR} and
+                </if>
+                <if test="userAction != null">
+                    user_action = #{userAction,jdbcType=VARCHAR} and
+                </if>
+                <if test="createTime != null">
+                    create_time = #{createTime,jdbcType=TIMESTAMP} and
+                </if>
+                <if test="userData != null">
+                    user_data = #{userData,jdbcType=VARCHAR}
+                </if>
+            </set>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from learn_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.learn.learnspring.entity.LearnInfo"
+            useGeneratedKeys="true">
+    insert into learn_info (user_name, user_action, create_time, 
+      user_data)
+    values (#{userName,jdbcType=VARCHAR}, #{userAction,jdbcType=VARCHAR}, now(),
+      #{userData,jdbcType=VARCHAR})
+  </insert>
+
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.learn.learnspring.entity.LearnInfo"
+            useGeneratedKeys="true">
+        insert into learn_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="userAction != null">
+                user_action,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="userData != null">
+                user_data,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userAction != null">
+                #{userAction,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userData != null">
+                #{userData,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.learn.learnspring.entity.LearnInfo">
+        update learn_info
+        <set>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userAction != null">
+                user_action = #{userAction,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userData != null">
+                user_data = #{userData,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.learn.learnspring.entity.LearnInfo">
+    update learn_info
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_action = #{userAction,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      user_data = #{userData,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

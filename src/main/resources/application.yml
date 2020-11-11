@@ -1,0 +1,9 @@
+#start spring configuration
+application:
+  version: demo001
+  name: learn-spring
+server:
+  port: 8080
+spring:
+  profiles:
+    active: my
